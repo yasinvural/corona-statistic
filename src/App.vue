@@ -5,6 +5,7 @@
       :selectedChar="selectedChar"
       @handleSelectedCharChange="handleSelectedCharChange($event)"
     />
+    <Country :currentCountryList="currentCountryList" />
   </div>
 </template>
 
@@ -14,6 +15,7 @@ const BASEURL = "https://covid19.mathdro.id/api/";
 import axios from "axios";
 import Header from "./components/Header.vue";
 import Alphabet from "./components/Alphabet.vue";
+import Country from "./components/Country.vue";
 export default {
   name: "App",
   data() {
@@ -33,9 +35,19 @@ export default {
       this.selectedChar = char;
     }
   },
+  computed: {
+    currentCountryList() {
+      const countryList = Object.keys(this.countries);
+      const currentList = countryList.filter(country =>
+        country.startsWith(this.selectedChar)
+      );
+      return currentList;
+    }
+  },
   components: {
     Header,
-    Alphabet
+    Alphabet,
+    Country
   },
   async created() {
     const fetchTotalValues = async () => {

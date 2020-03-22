@@ -57,5 +57,6 @@ export default {
 .alphabet-container {
   display: flex;
   justify-content: space-around;
+  margin: 1rem;
 }
 </style>
