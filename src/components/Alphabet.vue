@@ -1,6 +1,7 @@
 <template>
   <div class="alphabet-container">
     <a-avatar
+      class="alphabet-avatar"
       shape="square"
       v-for="char in list"
       :style="char.selected ?  'color: #f56a00; backgroundColor: #fde3cf' : ''"
@@ -58,5 +59,8 @@ export default {
   display: flex;
   justify-content: space-around;
   margin: 1rem;
+}
+.alphabet-avatar {
+  cursor: pointer;
 }
 </style>

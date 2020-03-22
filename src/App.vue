@@ -5,7 +5,11 @@
       :selectedChar="selectedChar"
       @handleSelectedCharChange="handleSelectedCharChange($event)"
     />
-    <Country :currentCountryList="currentCountryList" />
+    <Country
+      :currentCountryList="currentCountryList"
+      :countryData="countryData"
+      @handleCountryChange="handleCountryChange($event)"
+    />
   </div>
 </template>
 
@@ -16,6 +20,7 @@ import axios from "axios";
 import Header from "./components/Header.vue";
 import Alphabet from "./components/Alphabet.vue";
 import Country from "./components/Country.vue";
+import { message } from "ant-design-vue";
 export default {
   name: "App",
   data() {
@@ -27,12 +32,30 @@ export default {
         lastUpdate: null
       },
       countries: {},
+      countryData: null,
       selectedChar: "A"
     };
   },
   methods: {
     handleSelectedCharChange(char) {
       this.selectedChar = char;
+    },
+    async handleCountryChange(country) {
+      const countryLabel = this.countries[country];
+      try {
+        const result = await axios.get(`${BASEURL}countries/${countryLabel}`);
+        const { data } = result;
+        const { confirmed, recovered, deaths } = data;
+        const tempObj = {
+          confirmed: confirmed.value,
+          recovered: recovered.value,
+          deaths: deaths.value
+        };
+        this.countryData = tempObj;
+      } catch (err) {
+        message.error("Country data not found!");
+        this.countryData = null;
+      }
     }
   },
   computed: {
