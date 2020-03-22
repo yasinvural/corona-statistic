@@ -1,6 +1,10 @@
 <template>
   <div id="app">
     <Header :generalInfo="generalInfo" />
+    <Alphabet
+      :selectedChar="selectedChar"
+      @handleSelectedCharChange="handleSelectedCharChange($event)"
+    />
   </div>
 </template>
 
@@ -9,6 +13,7 @@ const BASEURL = "https://covid19.mathdro.id/api/";
 
 import axios from "axios";
 import Header from "./components/Header.vue";
+import Alphabet from "./components/Alphabet.vue";
 export default {
   name: "App",
   data() {
@@ -19,11 +24,18 @@ export default {
         deaths: null,
         lastUpdate: null
       },
-      countries:{}
+      countries: {},
+      selectedChar: "A"
     };
   },
+  methods: {
+    handleSelectedCharChange(char) {
+      this.selectedChar = char;
+    }
+  },
   components: {
-    Header
+    Header,
+    Alphabet
   },
   async created() {
     const fetchTotalValues = async () => {
