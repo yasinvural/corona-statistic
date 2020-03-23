@@ -1,6 +1,5 @@
 <template>
   <div class="country-container">
-    {{activeKey}}
     <a-collapse
       v-model="activeKey"
       accordion
