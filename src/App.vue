@@ -15,13 +15,11 @@
 </template>
 
 <script>
-const BASEURL = "https://covid19.mathdro.id/api/";
-
-import axios from "axios";
 import Header from "./components/Header.vue";
 import Alphabet from "./components/Alphabet.vue";
 import Country from "./components/Country.vue";
-import { message } from "ant-design-vue";
+import { baseService } from "./services/BaseService";
+
 export default {
   name: "App",
   data() {
@@ -46,7 +44,7 @@ export default {
       const countryLabel = this.countries[country];
       try {
         this.isLoading = true;
-        const result = await axios.get(`${BASEURL}countries/${countryLabel}`);
+        const result = await baseService.get(`countries/${countryLabel}`);
         const { data } = result;
         const { confirmed, recovered, deaths } = data;
         const tempObj = {
@@ -58,7 +56,6 @@ export default {
         this.isLoading = false;
       } catch (err) {
         this.isLoading = false;
-        message.error("Country data not found!");
         this.countryData = null;
       }
     }
@@ -79,7 +76,7 @@ export default {
   },
   async created() {
     const fetchTotalValues = async () => {
-      const result = await axios.get(BASEURL);
+      const result = await baseService.get();
       const { data } = result;
       const { confirmed, recovered, deaths, lastUpdate } = data;
       this.generalInfo.confirmed = confirmed.value;
@@ -88,7 +85,7 @@ export default {
       this.generalInfo.lastUpdate = lastUpdate;
     };
     const fetchCountries = async () => {
-      const result = await axios.get(`${BASEURL}countries`);
+      const result = await baseService.get("countries");
       const {
         data: { countries }
       } = result;
