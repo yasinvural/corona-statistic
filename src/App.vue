@@ -6,6 +6,7 @@
       @handleSelectedCharChange="handleSelectedCharChange($event)"
     />
     <Country
+      :isLoading="isLoading"
       :currentCountryList="currentCountryList"
       :countryData="countryData"
       @handleCountryChange="handleCountryChange($event)"
@@ -33,7 +34,8 @@ export default {
       },
       countries: {},
       countryData: null,
-      selectedChar: "A"
+      selectedChar: "A",
+      isLoading: false
     };
   },
   methods: {
@@ -43,6 +45,7 @@ export default {
     async handleCountryChange(country) {
       const countryLabel = this.countries[country];
       try {
+        this.isLoading = true;
         const result = await axios.get(`${BASEURL}countries/${countryLabel}`);
         const { data } = result;
         const { confirmed, recovered, deaths } = data;
@@ -52,7 +55,9 @@ export default {
           deaths: deaths.value
         };
         this.countryData = tempObj;
+        this.isLoading = false;
       } catch (err) {
+        this.isLoading = false;
         message.error("Country data not found!");
         this.countryData = null;
       }

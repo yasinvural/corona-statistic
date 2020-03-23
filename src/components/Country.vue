@@ -10,7 +10,8 @@
       @change="handleCountryClick(country)"
     >
       <a-collapse-panel :header="country" :key="country">
-        <Statistic :countryData="countryData" />
+        <Loading v-if="isLoading" />
+        <Statistic v-else :countryData="countryData" />
       </a-collapse-panel>
     </a-collapse>
   </div>
@@ -18,12 +19,14 @@
 
 <script>
 import Statistic from "./Statisctic";
+import Loading from "./Loading";
 
 export default {
   name: "Country",
   props: {
     currentCountryList: Array,
-    countryData: Object
+    countryData: Object,
+    isLoading: Boolean
   },
   data() {
     return {
@@ -41,7 +44,8 @@ export default {
     }
   },
   components: {
-    Statistic
+    Statistic,
+    Loading
   }
 };
 </script>
