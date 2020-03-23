@@ -1,5 +1,6 @@
 <template>
   <div class="country-container">
+    {{activeKey}}
     <a-collapse
       v-model="activeKey"
       accordion
@@ -31,7 +32,7 @@ export default {
   },
   methods: {
     handleCountryClick(key) {
-      this.$emit("handleCountryChange", key);
+      if (key === this.activeKey) this.$emit("handleCountryChange", key);
     }
   },
   watch: {
