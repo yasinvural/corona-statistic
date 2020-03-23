@@ -1,13 +1,15 @@
 <template>
   <div class="alphabet-container">
-    <a-avatar
-      class="alphabet-avatar"
-      shape="square"
-      v-for="char in list"
-      :style="char.selected ?  'color: #f56a00; backgroundColor: #fde3cf' : ''"
-      :key="char.key"
-      @click="handleAvatarClick(char.key)"
-    >{{char.key}}</a-avatar>
+    <div>
+      <a-avatar
+        class="alphabet-avatar"
+        shape="square"
+        v-for="char in list"
+        :style="char.selected ?  'color: #f56a00; backgroundColor: #fde3cf' : ''"
+        :key="char.key"
+        @click="handleAvatarClick(char.key)"
+      >{{char.key}}</a-avatar>
+    </div>
   </div>
 </template>
 
@@ -56,11 +58,15 @@ export default {
 
 <style scoped>
 .alphabet-container {
-  display: flex;
-  justify-content: space-around;
   margin: 1rem;
 }
+
+.alphabet-container div:first-child {
+  text-align: center;
+}
+
 .alphabet-avatar {
   cursor: pointer;
+  margin: 5px;
 }
 </style>
