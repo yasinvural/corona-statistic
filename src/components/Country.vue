@@ -4,11 +4,11 @@
       v-model="activeKey"
       accordion
       v-for="country in currentCountryList"
-      :key="country"
+      :key="country.iso2"
       class="country-collapse-container"
       @change="handleCountryClick(country)"
     >
-      <a-collapse-panel :header="country" :key="country">
+      <a-collapse-panel :header="country.name" :key="country.iso2">
         <Loading v-if="isLoading" />
         <Statistic v-else :countryData="countryData" />
       </a-collapse-panel>
@@ -34,7 +34,8 @@ export default {
   },
   methods: {
     handleCountryClick(key) {
-      if (key === this.activeKey) this.$emit("handleCountryChange", key);
+      if (key.iso2 === this.activeKey)
+        this.$emit("handleCountryChange", key.iso2);
     }
   },
   watch: {

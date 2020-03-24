@@ -30,7 +30,7 @@ export default {
         deaths: null,
         lastUpdate: null
       },
-      countries: {},
+      countries: [],
       countryData: null,
       selectedChar: "A",
       isLoading: false
@@ -40,8 +40,7 @@ export default {
     handleSelectedCharChange(char) {
       this.selectedChar = char;
     },
-    async handleCountryChange(country) {
-      const countryLabel = this.countries[country];
+    async handleCountryChange(countryLabel) {
       try {
         this.isLoading = true;
         const result = await baseService.get(`countries/${countryLabel}`);
@@ -62,9 +61,8 @@ export default {
   },
   computed: {
     currentCountryList() {
-      const countryList = Object.keys(this.countries);
-      const currentList = countryList.filter(country =>
-        country.startsWith(this.selectedChar)
+      const currentList = this.countries.filter(country =>
+        country.name.startsWith(this.selectedChar)
       );
       return currentList;
     }
